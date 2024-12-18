@@ -1,0 +1,23 @@
+document.addEventListener("DOMContentLoaded", () => {
+    const loadHTML = (url, placeholderId) => {
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Failed to load ${url}: ${response.statusText}`);
+                }
+                return response.text();
+            })
+            .then(htmlContent => {
+                const placeholder = document.getElementById(placeholderId);
+                if (placeholder) {
+                    placeholder.innerHTML = htmlContent;
+                } else {
+                    console.warn(`No element found with ID '${placeholderId}'.`);
+                }
+            })
+            .catch(error => console.error(`Error loading ${url}:`, error));
+    };
+
+    loadHTML("/resources/header.html", "header-placeholder");
+    loadHTML("/resources/footer.html", "footer-placeholder");
+});
